@@ -1,0 +1,103 @@
+<div class="container">
+
+  <mat-card>
+    <mat-toolbar color="primary">
+      <div align="center" style="color:white;text-align: center;">
+        Usuário
+      </div>
+    </mat-toolbar>
+    <br><br>
+    <mat-card-content>
+      <form [formGroup]="usuarioForm" (ngSubmit)="onFormSubmit(usuarioForm.value)">
+        <mat-form-field class="example-full-width">
+          <input formControlName="Nome" matTooltip="Entre com o Nome do Usuário" matInput placeholder="Nome do usuário">
+          <mat-error>
+            <span *ngIf="!usuarioForm.get('Nome').value && usuarioForm.get('Nome').touched"></span>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <input formControlName="Email" matTooltip="Entre com o E-mail" matInput placeholder="Email">
+          <mat-error>
+            <span *ngIf="!usuarioForm.get('Email').value && usuarioForm.get('Email').touched"></span>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <input type="password" matTooltip="Senha" formControlName="Senha" matInput placeholder="Senha" maxlength="15">
+          <mat-error>
+            <span *ngIf="!usuarioForm.get('Senha').value && usuarioForm.get('Senha').touched"></span>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <input type="password" matTooltip="Confirmação da Senha" formControlName="SenhaConfirm" matInput placeholder="Confirmação da Senha" maxlength="15">
+          <mat-error>
+            <span *ngIf="!usuarioForm.get('SenhaConfirm').value && usuarioForm.get('SenhaConfirm').touched"></span>
+          </mat-error>
+        </mat-form-field>
+
+        <div class="rightPos">
+            <span>Tipo de Usuário</span>
+            <br>
+            <mat-radio-group matTooltip="Informe o tipo" color="primary" formControlName="TipoUsuario">
+                <mat-radio-button value="ADM">ADM</mat-radio-button>
+                <mat-radio-button value="GP">GP</mat-radio-button>
+                <mat-radio-button value="GA">GA</mat-radio-button>
+            </mat-radio-group>  
+        </div>
+        <div class="example-full-width">
+            <span>Situação</span>
+            <br>
+            <mat-radio-group matTooltip="Informe a Situação" color="primary" formControlName="Situacao">
+                <mat-radio-button value="0">Inativo</mat-radio-button>
+                <mat-radio-button value="1" checked=true>Ativo</mat-radio-button>
+            </mat-radio-group>  
+        </div>
+
+        <div style="float: right; margin-right: 40px;">
+            <button type="button" class="btn btn-primary" style="margin-right: 10px;" [disabled]="!usuarioForm.valid">Salvar</button>      
+            <button type="button" class="btn btn-danger" (click)="resetForm()">Limpar Campos</button>  
+        </div>
+        <br><br>
+      </form>
+      </mat-card-content>
+    </mat-card>
+    <br>
+    <mat-card>
+      <mat-card-content>
+        <br>
+        <table class="table">
+          <tr style="background-color: #3f51b5; color:#fff;">
+            <th class="tbl2">Usuario</th>
+            <th class="tbl2">E-mail</th>
+            <th class="tbl2">Tipo Usuario</th>
+            <th class="tbl2">Data Cadastro</th>
+            <th class="tbl2">Ativo</th>
+            <th class="tbl2">Editar</th>
+            <th class="tbl2">Excluir</th>
+          </tr>
+          <tr *ngFor="let usuario of allUsuario | async">
+            <td class="tbl2">{{usuario.Nome}}</td>
+            <td class="tbl2">{{usuario.Email}}</td>
+            <td class="tbl2">{{usuario.TipoUsuario}}</td>
+            <td class="tbl2">{{usuario.DtCadastro | date }}</td>
+            <td class="tbl2">{{usuario.Ativo == 0 ? 'Inativo' : 'Ativo'}}</td>
+            <td class="tbl2">
+              <button type="button" class="btn btn-info" matTooltip="Click Edit Button"
+                (click)="loadUsuarioToEdit(usuario.Id)">Editar</button>
+            </td>
+            <td class="tbl2">
+              <button type="button" class="btn btn-danger" matTooltip="Click Delete Button"
+                (click)="deleteUsuario(usuario.Id)">Excuir</button>
+            </td>
+          </tr>
+
+        </table>
+      </mat-card-content>
+      </mat-card>
+      
+
+
+    
+</div>
